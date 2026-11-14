@@ -1,0 +1,9 @@
+# AI-Based Digital Twin for Industrial Equipment Monitoring & Predictive Maintenance
+# Core Dependencies
+starlette>=0.37.0
+uvicorn>=0.29.0
+numpy>=1.26.0
+pandas>=2.2.0
+python-multipart>=0.0.9
+httpx>=0.27.0
+pytest>=8.0.0

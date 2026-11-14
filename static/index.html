@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Twin | Industrial Equipment Intelligence</title>
+  <meta name="description" content="AI-Based Cyber-Physical Digital Twin for Industrial Equipment Monitoring, Anomaly Detection, RUL Estimation, and Prescriptive Maintenance.">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon">DT</div>
+        <div class="logo-text">
+          <h2>Digital Twin</h2>
+          <span>Industrial Intelligence</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Core Operations</div>
+        <div class="nav-item active" data-view="overview" id="nav-overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Overview Dashboard
+        </div>
+        <div class="nav-item" data-view="twin" id="nav-twin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          Digital Twin Monitor
+        </div>
+        <div class="nav-item" data-view="analytics" id="nav-analytics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Live Sensor Analytics
+        </div>
+
+        <div class="nav-label">AI & Prognostics</div>
+        <div class="nav-item" data-view="prognostics" id="nav-prognostics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Predictive Maintenance (RUL)
+        </div>
+        <div class="nav-item" data-view="faults" id="nav-faults">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Fault Detection
+        </div>
+        <div class="nav-item" data-view="prescriptive" id="nav-prescriptive">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Prescriptive Maintenance
+        </div>
+
+        <div class="nav-label">Data & Governance</div>
+        <div class="nav-item" data-view="history" id="nav-history">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          Historical Data & Reports
+        </div>
+        <div class="nav-item" data-view="settings" id="nav-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Data Management
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="patent-badge">
+          <strong>VNR VJIET | Patent Form 2</strong>
+          <span>Claims 1-10: Cyber-Physical Digital Twin & Closed-Loop Derating</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-wrapper">
+      <!-- HEADER -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="header-title">
+            <h1>Digital Twin | Industrial Equipment Intelligence</h1>
+            <p>Cyber-Physical Condition Monitoring & Prognostics Platform</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Machine Selector -->
+          <div class="machine-selector-wrap">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            <select id="machineSelect" aria-label="Select Machine"></select>
+          </div>
+
+          <!-- Overall Equipment Health Pill -->
+          <div class="health-pill healthy" id="headerHealthPill">
+            <span class="status-dot"></span>
+            <span id="headerHealthText">Pristine (HI: 0.98)</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- STREAMING CONTROL BAR -->
+      <section class="stream-bar" aria-label="Telemetry Stream Controls">
+        <div class="stream-controls">
+          <button class="btn-ctrl active" id="btnPlayPause" aria-label="Stream Telemetry">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            Pause
+          </button>
+          <button class="btn-ctrl" id="btnPlaybackSpeed" data-speed="1.0" aria-label="Playback Speed">1.0x</button>
+          <button class="btn-ctrl" id="btnResetDemo" title="Restore nominal baseline" style="color:#0D9488; font-weight:700;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Reset Demo
+          </button>
+          <span style="color:#CBD5E1;">|</span>
+          <label style="font-weight:600; color:#475569;" for="anomalySelect">Simulate Fault:</label>
+          <select id="anomalySelect" class="anomaly-injector-select">
+            <option value="none">Normal (Nominal Run)</option>
+            <option value="bearing_spall">Inner-Race Bearing Spall (BPFI)</option>
+            <option value="unbalance">Rotor Dynamic Unbalance (1X)</option>
+            <option value="thermal_overload">Stator Thermal Overload</option>
+          </select>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="badge-tag" id="headerActiveDatasetBadge" style="background:#F0FDFA; color:#0D9488; font-weight:600;">Dataset: testbed_motor_pump_run.csv</span>
+          <span style="color:#64748B; font-size:12px;">Updated: <strong id="headerLastUpdate">--</strong></span>
+          <span class="badge-tag" style="background:#EFF6FF; color:#1D4ED8;">Edge DAQ: 1000 Hz</span>
+        </div>
+      </section>
+
+      <!-- CLOSED-LOOP VFD DERATING BANNER -->
+      <div id="deratingAlertBanner" class="derating-banner" style="display:none; margin:16px 28px 0 28px;">
+        <div class="derating-info">
+          <h4>
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Prescriptive Closed-Loop Control System (Patent Claim 8)
+          </h4>
+          <p id="deratingStatusSummary">Evaluating fatigue deceleration kinetics...</p>
+        </div>
+        <button id="btnDispatchDerate" class="btn btn-danger btn-sm" data-active="false">
+          Dispatch VFD Derating (20%)
+        </button>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 1: OVERVIEW DASHBOARD -->
+      <!-- ===================================================================== -->
+      <main class="page-view active" id="view-overview">
+        <!-- 8 KPI Metrics Cards -->
+        <div class="grid-4" style="margin-bottom:20px;">
+          <!-- Health Index -->
+          <div class="kpi-card kpi-primary">
+            <div class="kpi-label">
+              <span>Health Index (HI)</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="kpi-val-row">
+              <span class="kpi-val" id="kpiHealthIndex">0.98</span>
+              <span class="kpi-unit">/ 1.00</span>
+            </div>
+            <div class="kpi-footer">Operational Zone: <strong id="kpiHealthZone">Normal</strong></div>
+          </div>
+
+          <!-- Vibration -->
+          <div class="kpi-card kpi-secondary">
+            <div class="kpi-label">
+              <span>Vibration (Radial)</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="kpi-val-row">
+              <span class="kpi-val" id="kpiVibration">0.85</span>
+              <span class="kpi-unit">mm/s RMS</span>
+            </div>
+            <div class="kpi-footer">ISO 10816 Limit: <strong>2.8 mm/s</strong></div>
+          </div>
+
+          <!-- Temperature -->
+          <div class="kpi-card kpi-warning">
+            <div class="kpi-label">
+              <span>Temperature</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+            </div>
+            <div class="kpi-val-row">
+              <span class="kpi-val" id="kpiTemperature">42.0</span>
+              <span class="kpi-unit">°C</span>
+            </div>
+            <div class="kpi-footer">Rated Stator Limit: <strong>75.0 °C</strong></div>
+          </div>
+
+          <!-- Remaining Useful Life -->
+          <div class="kpi-card kpi-primary">
+            <div class="kpi-label">
+              <span>Remaining Useful Life</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="kpi-val-row">
+              <span class="kpi-val" id="kpiRUL">2400 h</span>
+            </div>
+            <div class="kpi-footer">95% Bayesian Confidence Bound</div>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:24px;">
+          <!-- Speed RPM -->
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Rotational Speed</span></div>
+            <div class="kpi-val-row">
+              <span class="kpi-val" id="kpiRPM">1440</span>
+              <span class="kpi-unit">RPM</span>
+            </div>
+            <div class="kpi-footer">Fundamental 1X: <strong>24.0 Hz</strong></div>
+          </div>
+
+          <!-- Stator Current -->
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Phase Current</span></div>
+            <div class="kpi-val-row">
+              <span class="kpi-val" id="kpiCurrent">8.50</span>
+              <span class="kpi-unit">A</span>
+            </div>
+            <div class="kpi-footer">Full Load Rated: <strong>11.2 A</strong></div>
+          </div>
+
+          <!-- Pump Pressure -->
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Discharge Pressure</span></div>
+            <div class="kpi-val-row">
+              <span class="kpi-val" id="kpiPressure">4.20</span>
+              <span class="kpi-unit">bar</span>
+            </div>
+            <div class="kpi-footer">Nominal Head: <strong>42.8 m</strong></div>
+          </div>
+
+          <!-- Discrepancy Norm -->
+          <div class="kpi-card kpi-secondary">
+            <div class="kpi-label"><span>Physics Discrepancy</span></div>
+            <div class="kpi-val-row">
+              <span class="kpi-val" id="kpiDiscrepancy">Δ 0.080</span>
+            </div>
+            <div class="kpi-footer">Nominal Limit: <strong>Δ < 1.00</strong></div>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="grid-2" style="margin-bottom:24px;">
+          <div class="card">
+            <div class="card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Sensor Telemetry History (Radial Vibration & Temperature)
+              </h3>
+              <span class="badge-tag">Dual-Axis Trend</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="chartSensorTimeline"></canvas>
+            </div>
+            <div style="display:flex; justify-content:center; gap:20px; font-size:11px; margin-top:8px;">
+              <span style="color:#2563EB;">● Radial Vibration (mm/s RMS)</span>
+              <span style="color:#F59E0B;">● Bearing Temperature (°C)</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Prognostic RUL Degradation Trajectory (95% Bayesian Confidence)
+              </h3>
+              <span class="badge-tag">Monte Carlo Extrapolation</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="chartRULDegradation"></canvas>
+            </div>
+            <div style="display:flex; justify-content:center; gap:20px; font-size:11px; margin-top:8px;">
+              <span style="color:#2563EB;">● Projected Health Index</span>
+              <span style="color:rgba(37, 99, 235, 0.4);">■ 95% Bayesian Confidence Funnel</span>
+              <span style="color:#EF4444;">-- Critical Breakdown (0.20)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Alerts & Operational Recommendations -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <h3>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Recent Operational Alerts & Prescriptive Status
+            </h3>
+            <span class="badge-tag" id="overviewAlertBadge" style="background:#ECFDF5; color:#065F46;">All Systems Nominal</span>
+          </div>
+          <div style="display:grid; grid-template-columns:2fr 1fr; gap:20px;">
+            <div id="overviewAlertsContainer">
+              <p style="font-size:13px; color:#475569; margin-bottom:8px;">
+                <strong>Diagnostic Summary:</strong> <span id="overviewDiagSummary">Physics shadow model conforms within ±0.08 Δ tolerance. Continuous HI is pristine.</span>
+              </p>
+              <div id="overviewAlertList" style="display:flex; flex-direction:column; gap:8px;"></div>
+            </div>
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; padding:12px 16px; border-radius:6px; font-size:12px;">
+              <div style="font-weight:700; color:#172033; margin-bottom:6px;">Equipment Registry Information</div>
+              <div style="margin-bottom:4px;">Machine: <strong id="overviewMachineName">5.5 kW Induction Motor - Pump</strong></div>
+              <div style="margin-bottom:4px;">Rated Power: <strong>5.5 kW / 400V / 50 Hz</strong></div>
+              <div style="margin-bottom:4px;">Nominal RPM: <strong id="overviewNominalRpm">1440 RPM</strong></div>
+              <div>Active Dataset: <strong id="overviewActiveDataset">testbed_motor_pump_run.csv</strong></div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 2: DIGITAL TWIN MONITOR (SIGNATURE FEATURE) -->
+      <!-- ===================================================================== -->
+      <section class="page-view" id="view-twin">
+        <div class="twin-container">
+          <!-- Interactive Technical Schematic Viewport -->
+          <div class="twin-viewport">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h3 style="font-size:15px; font-weight:700;">Cyber-Physical Machinery Virtual Shadow</h3>
+              <span class="badge-tag" style="background:#ECFDF5; color:#065F46;">Real-Time Synchronized</span>
+            </div>
+
+            <!-- SVG Container -->
+            <div id="twinViewportContainer" style="flex:1; width:100%; min-height:380px;"></div>
+
+            <!-- Legend & Instructions -->
+            <div class="twin-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background:#10B981;"></div>
+                <span>Nominal Stress (&lt;35%)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background:#F59E0B;"></div>
+                <span>Elevated Stress (35-70%)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background:#EF4444;"></div>
+                <span>Critical Hotspot (&gt;70%)</span>
+              </div>
+              <span style="margin-left:auto; color:#64748B;">Click components to inspect physics state</span>
+            </div>
+          </div>
+
+          <!-- Digital Twin Synchronization & Discrepancy Panel -->
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card">
+              <div class="card-header">
+                <h3>Physics Shadow Model vs. Measured Telemetry</h3>
+                <span class="badge-tag" id="dtSyncStatus">Synchronized</span>
+              </div>
+
+              <div class="data-table-wrap" style="margin-bottom:16px;">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Modality</th>
+                      <th>Measured y_obs</th>
+                      <th>Physics y_sim</th>
+                      <th>Residual Δ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Vibration RMS</strong></td>
+                      <td id="dtMeasuredVib">0.85 mm/s</td>
+                      <td id="dtNominalVib">0.85 mm/s</td>
+                      <td id="dtDeltaVib">0.00 mm/s</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Temperature</strong></td>
+                      <td id="dtMeasuredTemp">42.0 °C</td>
+                      <td id="dtNominalTemp">42.0 °C</td>
+                      <td id="dtDeltaTemp">0.0 °C</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Stator Current</strong></td>
+                      <td id="dtMeasuredCurr">8.50 A</td>
+                      <td id="dtNominalCurr">8.50 A</td>
+                      <td id="dtDeltaCurr">0.00 A</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4 style="font-size:13px; font-weight:600; margin-bottom:10px;">Sub-Assembly Stress Attribution</h4>
+              <div id="componentStressBars" style="margin-bottom:16px;"></div>
+
+              <!-- Clicked Component Deep-Dive Inspection Card -->
+              <div id="dtComponentDetailCard" style="background:#F8FAFC; border:1px solid #CBD5E1; padding:12px 14px; border-radius:6px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <strong style="font-size:13px; color:#1E293B;" id="dtInspectedCompName">Drive-End (DE) Bearing</strong>
+                  <span class="badge-tag" id="dtInspectedCompStatus" style="background:#ECFDF5; color:#065F46;">Nominal</span>
+                </div>
+                <p style="font-size:11px; color:#475569; margin-bottom:8px;" id="dtInspectedCompDesc">
+                  Primary high-fatigue dynamic assembly. Monitored for inner/outer race micro-spalling, ball pass harmonics, and localized thermal rise.
+                </p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:11px; color:#334155;">
+                  <div>Stress Level: <strong id="dtInspectedCompStress">12%</strong></div>
+                  <div>Lubricant State: <strong id="dtInspectedCompLube">Adequate (ISO VG 46)</strong></div>
+                  <div>Monitored Modal: <strong id="dtInspectedCompModal">Radial Vib + RTD</strong></div>
+                  <div>Defect Sig: <strong id="dtInspectedCompDefect">None Detected</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Discrepancy Norm Chart -->
+            <div class="card">
+              <div class="card-header">
+                <h3>Dynamic Euclidean Discrepancy Vector Δ(t)</h3>
+                <span class="badge-tag">Patent Claim 4</span>
+              </div>
+              <div style="height:140px;">
+                <canvas id="chartDiscrepancyNorm"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 3: LIVE SENSOR ANALYTICS -->
+      <!-- ===================================================================== -->
+      <section class="page-view" id="view-analytics">
+        <div class="grid-2" style="margin-bottom:24px;">
+          <!-- FFT Power Spectrum -->
+          <div class="card">
+            <div class="card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Fast Fourier Transform (FFT) Power Spectrum & Harmonics
+              </h3>
+              <span class="badge-tag">Frequency Domain</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="chartFFTSpectrum"></canvas>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-top:10px; color:#64748B;">
+              <span>Rotational Fundamental (1X): <strong>24.0 Hz</strong></span>
+              <span>Outer Race Defect (BPFO): <strong>86.0 Hz</strong></span>
+              <span>Inner Race Defect (BPFI): <strong>130.1 Hz</strong></span>
+            </div>
+          </div>
+
+          <!-- Multi-Domain Signal Features -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Multi-Domain Feature Representations</h3>
+              <span class="badge-tag">Patent Claim 3</span>
+            </div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Domain</th>
+                    <th>Feature Metric</th>
+                    <th>Current Value</th>
+                    <th>Interpretation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Time-Domain</td>
+                    <td><strong>Vibration RMS</strong></td>
+                    <td id="featRms">0.85 mm/s</td>
+                    <td>Overall kinetic mechanical energy</td>
+                  </tr>
+                  <tr>
+                    <td>Time-Domain</td>
+                    <td><strong>Peak-to-Peak</strong></td>
+                    <td id="featP2p">2.41 mm/s</td>
+                    <td>Maximum oscillatory displacement</td>
+                  </tr>
+                  <tr>
+                    <td>Time-Domain</td>
+                    <td><strong>Crest Factor</strong></td>
+                    <td id="featCrest">2.83</td>
+                    <td>Impulse-to-RMS ratio (&gt;3.5 indicates spalls)</td>
+                  </tr>
+                  <tr>
+                    <td>Time-Domain</td>
+                    <td><strong>Kurtosis</strong></td>
+                    <td id="featKurtosis">3.05</td>
+                    <td>Standardized 4th moment (baseline ~3.0)</td>
+                  </tr>
+                  <tr>
+                    <td>Time-Domain</td>
+                    <td><strong>Skewness</strong></td>
+                    <td id="featSkewness">0.02</td>
+                    <td>Waveform asymmetry coefficient</td>
+                  </tr>
+                  <tr>
+                    <td>Time-Domain</td>
+                    <td><strong>Shape Factor</strong></td>
+                    <td id="featShapeFactor">1.25</td>
+                    <td>RMS / Mean Absolute Value ratio</td>
+                  </tr>
+                  <tr>
+                    <td>Frequency</td>
+                    <td><strong>Spectral Centroid</strong></td>
+                    <td id="featCentroid">52.8 Hz</td>
+                    <td>Center of gravity of frequency distribution</td>
+                  </tr>
+                  <tr>
+                    <td>Frequency</td>
+                    <td><strong>Rotational 1X Peak</strong></td>
+                    <td id="feat1x">0.72 mm/s</td>
+                    <td>Fundamental rotational frequency harmonic</td>
+                  </tr>
+                  <tr>
+                    <td>Frequency</td>
+                    <td><strong>Bearing BPFI Defect</strong></td>
+                    <td id="featBpfi">0.05 mm/s</td>
+                    <td>Ball pass frequency inner race amplitude</td>
+                  </tr>
+                  <tr>
+                    <td>Wavelet (db4)</td>
+                    <td><strong>Sub-Band Energy #1-8</strong></td>
+                    <td id="featWavelet">Decomposed (8 bands)</td>
+                    <td>Localized Daubechies wavelet packet energy</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 4: PREDICTIVE MAINTENANCE (RUL) -->
+      <!-- ===================================================================== -->
+      <section class="page-view" id="view-prognostics">
+        <div class="grid-1-2" style="margin-bottom:24px;">
+          <!-- Health Index Breakdown Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Continuous Health Index HI(t)</h3>
+              <span class="badge-tag">Normalized [0.0 - 1.0]</span>
+            </div>
+            <div style="text-align:center; padding:20px 0;">
+              <div style="font-size:48px; font-weight:800; color:#2563EB;" id="progHIValue">0.98</div>
+              <p style="font-size:13px; color:#64748B;" id="progZoneDesc">Asset operating in pristine condition.</p>
+            </div>
+
+            <div style="background:#F8FAFC; border-radius:8px; padding:16px; font-size:12px; margin-top:12px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <span>Normal Stage (1.00 - 0.75):</span>
+                <strong style="color:#10B981;">Pristine</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <span>Warning Stage (0.75 - 0.50):</span>
+                <strong style="color:#F59E0B;">Extrapolation Active</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <span>Maintenance Alarm (0.50 - 0.20):</span>
+                <strong style="color:#F97316;">Work-Order Priority</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span>Critical Failure (&lt; 0.20):</span>
+                <strong style="color:#EF4444;">Emergency Derate</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- RUL Countdown & Confidence Funnel -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Bayesian Monte Carlo RUL Degradation Forecast</h3>
+              <span class="badge-tag">Patent Claim 6 & 7</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <div>
+                <span style="font-size:12px; color:#64748B;">Predicted Operating Hours to Critical Failure:</span>
+                <h2 style="font-size:28px; color:#172033;" id="progRULDisplay">2400 Operating Hours</h2>
+              </div>
+              <div style="text-align:right; font-size:12px;">
+                <span style="color:#64748B;">95% Confidence Bounds:</span>
+                <div style="font-weight:700; color:#2563EB;" id="progRULBounds">2100 h (Lower 5%) — 2700 h (Upper 95%)</div>
+              </div>
+            </div>
+            <div style="font-size:12px; color:#475569; background:#EFF6FF; padding:12px; border-radius:6px; border:1px solid #BFDBFE;">
+              <strong>Prognostic Note:</strong> RUL trajectory is calculated using 100 stochastic Monte Carlo dropout forward passes over Paris-Erdogan degradation kinetics, quantifying prediction uncertainty before maintenance execution.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 5: FAULT DETECTION -->
+      <!-- ===================================================================== -->
+      <section class="page-view" id="view-faults">
+        <div class="grid-2" style="margin-bottom:24px;">
+          <!-- AI Diagnostic Architecture Summary -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Temporal Deep Learning Autoencoder Status</h3>
+              <span class="badge-tag">Patent Claim 5</span>
+            </div>
+            <div style="margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12px; color:#64748B;">Diagnostic Classification:</span>
+                <span class="badge-tag" id="diagFaultState" style="background:#ECFDF5; color:#065F46;">Normal</span>
+              </div>
+              <h3 style="font-size:20px; color:#172033; margin-top:2px;" id="diagFaultCategory">Healthy Nominal Operation</h3>
+              <p style="font-size:13px; color:#475569; margin-top:6px;" id="diagExplanation">All empirical telemetry vectors conform to nominal baseline distribution.</p>
+            </div>
+
+            <div class="grid-3" style="margin-bottom:16px;">
+              <div style="background:#F8FAFC; padding:12px; border-radius:6px; text-align:center;">
+                <div style="font-size:11px; color:#64748B;">Reconstruction Loss</div>
+                <strong style="font-size:18px; color:#2563EB;" id="diagLoss">0.0210</strong>
+              </div>
+              <div style="background:#F8FAFC; padding:12px; border-radius:6px; text-align:center;">
+                <div style="font-size:11px; color:#64748B;">Adaptive Threshold</div>
+                <strong style="font-size:18px; color:#64748B;" id="diagThreshold">0.1500</strong>
+              </div>
+              <div style="background:#F8FAFC; padding:12px; border-radius:6px; text-align:center;">
+                <div style="font-size:11px; color:#64748B;">Model Confidence</div>
+                <strong style="font-size:18px; color:#10B981;" id="diagConfidence">98%</strong>
+              </div>
+            </div>
+
+            <h4 style="font-size:13px; font-weight:600; margin-bottom:8px;">Identified Localized Fault Signatures</h4>
+            <div id="specificFaultsContainer"></div>
+          </div>
+
+          <!-- Explainable AI Attention Attribution Chart -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Multi-Head Self-Attention Attribution Weights</h3>
+              <span class="badge-tag">Explainable AI</span>
+            </div>
+            <p style="font-size:12px; color:#64748B; margin-bottom:12px;">
+              Quantifies relative percentage contribution of each sensor channel to the anomaly reconstruction error:
+            </p>
+            <div class="chart-container" style="height:220px;">
+              <canvas id="chartAttentionAttribution"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 6: MAINTENANCE RECOMMENDATIONS -->
+      <!-- ===================================================================== -->
+      <section class="page-view" id="view-prescriptive">
+        <div class="grid-1-2" style="margin-bottom:24px;">
+          <!-- Tri-Factor Optimization Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Tri-Factor Prescriptive Decision Model</h3>
+              <span class="badge-tag">Optimization Engine</span>
+            </div>
+            <p style="font-size:12px; color:#64748B; margin-bottom:14px;">
+              Optimizes work-orders by balancing Remaining Useful Life against supply chain logistics:
+            </p>
+
+            <div style="display:flex; flex-direction:column; gap:12px; font-size:13px;">
+              <div style="display:flex; justify-content:space-between; padding:8px 12px; background:#F8FAFC; border-radius:6px;">
+                <span>Spare Parts Lead Time (t_lead):</span>
+                <strong>72.0 Operating Hours</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:8px 12px; background:#F8FAFC; border-radius:6px;">
+                <span>Staff & Tooling Prep (t_staff):</span>
+                <strong>8.0 Operating Hours</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:8px 12px; background:#F8FAFC; border-radius:6px;">
+                <span>Scheduled Production Window (t_window):</span>
+                <strong>48.0 Operating Hours</strong>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="btnOpenCreateTicket" style="width:100%; margin-top:20px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Dispatch Manual CMMS Ticket
+            </button>
+          </div>
+
+          <!-- Prescriptive Action Tickets -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Active Prescriptive Action Recommendations</h3>
+              <span class="badge-tag">Prioritized Queue</span>
+            </div>
+            <div id="recommendationsList" style="margin-bottom:16px;"></div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin:14px 0 8px 0; border-top:1px solid #E2E8F0; padding-top:14px;">
+              <h4 style="font-size:13px; font-weight:700; color:#172033;">Dispatched CMMS Work-Orders & Audit Trail</h4>
+              <span class="badge-tag" id="cmmsOrderCountBadge" style="background:#EFF6FF; color:#1D4ED8;">1 Dispatched</span>
+            </div>
+            <div id="cmmsWorkOrdersContainer" style="display:flex; flex-direction:column; gap:8px; max-height:200px; overflow-y:auto; margin-bottom:20px;"></div>
+
+            <!-- Closed-Loop VFD Derating Controller (Claim 8) -->
+            <div style="background:#F8FAFC; border:1px solid #CBD5E1; padding:16px; border-radius:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h4 style="font-size:14px; font-weight:700; color:#172033;">
+                  Autonomous VFD/PLC Speed Throttling Controller (Patent Claim 8)
+                </h4>
+                <span class="badge-tag" id="view6DerateStatusBadge" style="background:#EFF6FF; color:#1D4ED8;">Simulated Modbus TCP (Port 502)</span>
+              </div>
+              <p style="font-size:12px; color:#475569; margin-bottom:12px;">
+                When RUL is less than spare parts delivery lead time, command operational speed throttling to decelerate mechanical fatigue kinetics and ensure equipment survival.
+              </p>
+              
+              <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; font-size:12px; margin-bottom:14px;">
+                <div style="background:#FFFFFF; padding:8px 12px; border-radius:6px; border:1px solid #E2E8F0;">
+                  <span style="color:#64748B;">Throttle Percentage:</span>
+                  <select id="vfdDeratePctSelect" style="margin-top:4px; width:100%; padding:4px 8px; border:1px solid #CBD5E1; border-radius:4px;">
+                    <option value="15">15% Speed Reduction</option>
+                    <option value="20" selected>20% Speed Reduction</option>
+                    <option value="25">25% Speed Reduction</option>
+                  </select>
+                </div>
+                <div style="background:#FFFFFF; padding:8px 12px; border-radius:6px; border:1px solid #E2E8F0;">
+                  <span style="color:#64748B;">Target Setpoint:</span>
+                  <div style="font-size:14px; font-weight:700; color:#1D4ED8; margin-top:4px;" id="vfdTargetSpeedText">80% (1152 RPM / 40.0 Hz)</div>
+                </div>
+                <div style="background:#FFFFFF; padding:8px 12px; border-radius:6px; border:1px solid #E2E8F0;">
+                  <span style="color:#64748B;">Fatigue Deceleration:</span>
+                  <div style="font-size:14px; font-weight:700; color:#059669; margin-top:4px;">~3.5x Life Extension</div>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:10px; margin-bottom:12px;">
+                <button class="btn btn-danger btn-sm" id="btnView6EngageDerate" style="flex:1;">
+                  Engage Closed-Loop Derating
+                </button>
+                <button class="btn btn-outline btn-sm" id="btnView6DisengageDerate" style="flex:1;">
+                  Restore Nominal Speed (100%)
+                </button>
+              </div>
+
+              <h5 style="font-size:12px; font-weight:600; color:#475569; margin-bottom:6px;">Derating Command Audit History:</h5>
+              <div id="vfdActionHistoryLog" style="display:flex; flex-direction:column; gap:6px; font-size:11px; max-height:120px; overflow-y:auto;">
+                <span style="color:#94A3B8;">No derating actions dispatched yet.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 7: HISTORICAL DATA AND REPORTS -->
+      <!-- ===================================================================== -->
+      <section class="page-view" id="view-history">
+        <div class="card">
+          <div class="card-header">
+            <h3>Historical Telemetry & Audit Logs</h3>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <input type="text" id="historySearchInput" placeholder="Filter telemetry by timestamp, status, rpm..." style="padding:5px 12px; font-size:12px; border:1px solid #CBD5E1; border-radius:6px; width:260px;" />
+              <button class="btn btn-outline btn-sm" id="btnExportCsv">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export CSV
+              </button>
+              <button class="btn btn-outline btn-sm" id="btnExportJson">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Export JSON Report
+              </button>
+            </div>
+          </div>
+
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Vib Radial (mm/s)</th>
+                  <th>Vib Axial (mm/s)</th>
+                  <th>Temp (°C)</th>
+                  <th>Current (A)</th>
+                  <th>Speed (RPM)</th>
+                  <th>Pressure (bar)</th>
+                  <th>Health Index</th>
+                  <th>Operational Status</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 8: DATA MANAGEMENT & INGESTION -->
+      <!-- ===================================================================== -->
+      <section class="page-view" id="view-settings">
+        <!-- Bundled Datasets Library Card -->
+        <div class="card" style="margin-bottom:24px;">
+          <div class="card-header">
+            <h3>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Bundled Industrial Datasets Library
+            </h3>
+            <span class="badge-tag" id="view8ActiveDatasetTag" style="background:#ECFDF5; color:#065F46;">Active: testbed_motor_pump_run.csv</span>
+          </div>
+          <p style="font-size:12px; color:#475569; margin-bottom:14px;">
+            Select from pre-configured industrial run-to-failure and testbed sensor streams to demonstrate physics discrepancy, bearing defect harmonics, and degradation kinetics:
+          </p>
+          <div id="bundledDatasetsContainer" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;"></div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Upload Sensor CSV Dropzone -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Ingest Custom Sensor Dataset</h3>
+              <span class="badge-tag">Strict Validation</span>
+            </div>
+            <p style="font-size:12px; color:#64748B; margin-bottom:16px;">
+              Upload raw or preprocessed multi-modal industrial sensor CSV data. Validates required columns: <code>timestamp, vibration_radial, vibration_axial, temperature, current, speed_rpm</code>. Max size: 10 MB.
+            </p>
+
+            <div class="upload-dropzone" id="uploadDropzone">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              <h4 style="font-size:14px; font-weight:600; color:#172033;">Drag and drop sensor CSV here</h4>
+              <p style="font-size:12px; color:#64748B; margin-top:4px;">or click to browse from local workstation</p>
+              <input type="file" id="csvFileInput" accept=".csv" style="display:none;" />
+            </div>
+
+            <div id="uploadStatusMessage" style="display:none; margin-top:14px; padding:12px; border-radius:6px; font-size:12px;"></div>
+          </div>
+
+          <!-- Academic & Patent Specifications -->
+          <div class="card">
+            <div class="card-header">
+              <h3>System Architecture & Patent Claims</h3>
+              <span class="badge-tag">VNR VJIET R&D</span>
+            </div>
+            <div style="font-size:13px; color:#475569; display:flex; flex-direction:column; gap:12px;">
+              <p>
+                <strong>Invention Title:</strong> AI-Based Digital Twin for Industrial Equipment Monitoring and Predictive Maintenance
+              </p>
+              <p>
+                <strong>Applicant:</strong> Vallurupalli Nageswara Rao Vignana Jyothi Institute of Engineering & Technology (VNR VJIET), Hyderabad, India.
+              </p>
+              <p>
+                <strong>Guide:</strong> Mrs. Prasanna Pabba (Assistant Professor, Dept. of CSE)
+              </p>
+              <p>
+                <strong>Inventors:</strong> Ms. Challa Brundha, Ms. Venkata Sai Srija Chevuturi, Ms. Jeevani Sabbineni, Ms. Udvisha Samudrala, Mr. Mohammad Hussen Shaik, Ms. Kotla Sreenidhi.
+              </p>
+              <div style="background:#F8FAFC; border:1px solid #E2E8F0; padding:12px; border-radius:6px; font-size:12px;">
+                <strong>Claim 1 & 4:</strong> Cyber-physical physics shadow model discrepancy vector Δ(t).<br>
+                <strong>Claim 5:</strong> Temporal deep learning autoencoder with self-attention attribution.<br>
+                <strong>Claim 6 & 7:</strong> Continuous Health Index and Bayesian Monte Carlo RUL bounds.<br>
+                <strong>Claim 8:</strong> Closed-loop PLC/VFD automated operational derating.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE CMMS WORK ORDER -->
+  <div class="modal-overlay" id="modalCreateTicket">
+    <div class="modal-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:16px; font-weight:700;">Dispatch CMMS Work-Order Ticket</h3>
+        <button id="btnCloseModalTicket" style="background:none; border:none; cursor:pointer; font-size:18px; color:#64748B;">&times;</button>
+      </div>
+
+      <form id="formCreateTicket">
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;" for="ticketComponent">Target Sub-Assembly</label>
+          <input type="text" id="ticketComponent" style="width:100%; padding:8px 12px; border:1px solid #DCE3EC; border-radius:6px;" required />
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;" for="ticketPriority">Priority Level</label>
+          <select id="ticketPriority" style="width:100%; padding:8px 12px; border:1px solid #DCE3EC; border-radius:6px;">
+            <option value="Normal">Normal (Routine Inspection)</option>
+            <option value="Elevated">Elevated (Next Shift Window)</option>
+            <option value="Urgent">Urgent (Before Parts Lead-Time Deficit)</option>
+            <option value="Critical">Critical Emergency (Immediate Seizure Risk)</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;" for="ticketAction">Prescribed Maintenance Action</label>
+          <input type="text" id="ticketAction" style="width:100%; padding:8px 12px; border:1px solid #DCE3EC; border-radius:6px;" required />
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;" for="ticketNotes">Technician & Tooling Notes</label>
+          <textarea id="ticketNotes" rows="3" style="width:100%; padding:8px 12px; border:1px solid #DCE3EC; border-radius:6px;" placeholder="Attach spare part SKUs, laser alignment specs, torque requirements..."></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('modalCreateTicket').classList.remove('active')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Dispatch to CMMS</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="/static/js/twin_viewer.js"></script>
+  <script src="/static/js/charts.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
